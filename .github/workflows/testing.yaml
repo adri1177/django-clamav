@@ -1,0 +1,35 @@
+name: Run testing
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install clamAV dependencies
+      run: |
+        sudo apt-get install clamav-daemon clamav-freshclam clamav-unofficial-sigs
+        sudo systemctl stop clamav-freshclam.service
+        # Run manually
+        sudo freshclam --verbose
+        sudo service clamav-daemon start
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+        pip install tox
+
+    - name: Test with tox
+      # TODO: fix this so multiple matrices are tested
+      run: tox -e py$(python -c 'import sys;print("".join(map(str, sys.version_info[:2])))')-dj32
