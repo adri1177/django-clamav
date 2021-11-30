@@ -26,12 +26,16 @@ def validate_file_infection(file):
         # Ping the server if it fails than the server is down
         scanner.ping()
         # Server is up. This means that the file is too big.
-        logger.warning('The file is too large for ClamD to scan it. Bytes Read {}'.format(file.tell()))
+        logger.warning(
+            "The file is too large for ClamD to scan it. Bytes Read {}".format(
+                file.tell()
+            )
+        )
         file.seek(0)
         return
 
-    if result and result['stream'][0] == 'FOUND':
-        raise ValidationError(_('File is infected with malware'), code='infected')
+    if result and result["stream"][0] == "FOUND":
+        raise ValidationError(_("File is infected with malware"), code="infected")
 
     # Return file pointer to beginning of the file again
     file.seek(0)
