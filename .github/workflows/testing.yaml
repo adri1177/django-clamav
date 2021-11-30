@@ -32,4 +32,4 @@ jobs:
 
     - name: Test with tox
       # TODO: fix this so multiple matrices are tested
-      run: tox -e py$(python -c 'import sys;print("".join(map(str, sys.version_info[:2])))')-dj32}
+      run: tox -e py$(python -c 'import sys;print("".join(map(str, sys.version_info[:2])))')-dj32
