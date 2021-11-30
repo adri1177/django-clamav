@@ -1,4 +1,4 @@
-name: Run linting
+name: Run Linting
 on: [push, pull_request]
 jobs:
   build:
