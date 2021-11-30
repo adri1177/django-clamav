@@ -16,4 +16,4 @@ jobs:
     - name: Lint with black
       run: |
           pip install black
-          black src/django_clamav/
+          black src/django_clamav/ --check
