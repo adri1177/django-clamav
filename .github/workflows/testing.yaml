@@ -16,13 +16,16 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Install clamAV dependencies
+      run: |
+        sudo apt-get install clamav-daemon clamav-freshclam clamav-unofficial-sigs
+        sudo freshclam --verbose
+        sudo service clamav-daemon start
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
-        sudo apt-get install clamav-daemon clamav-freshclam clamav-unofficial-sigs
-        sudo freshclam --verbose
-        sudo service clamav-daemon start
         pip install tox
 
     - name: Test with tox
