@@ -16,6 +16,10 @@ def validate_file_infection(file):
     if not CLAMAV_ENABLED:
         return
 
+    # IF file is None do not check anything
+    if file is None:
+        return
+
     # Ensure file pointer is at beginning of the file
     file.seek(0)
 
@@ -35,7 +39,8 @@ def validate_file_infection(file):
         return
 
     if result and result["stream"][0] == "FOUND":
-        raise ValidationError(_("File is infected with malware"), code="infected")
+        raise ValidationError(_("File is infected with malware"),
+                              code="infected")
 
     # Return file pointer to beginning of the file again
     file.seek(0)
