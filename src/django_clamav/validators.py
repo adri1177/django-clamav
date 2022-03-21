@@ -26,6 +26,7 @@ def validate_file_infection(file):
     scanner = get_scanner()
     try:
         result = scanner.instream(file)
+        logger.debug("CLAMAV FILE PROCESSED")
     except IOError:
         # Ping the server if it fails than the server is down
         scanner.ping()
